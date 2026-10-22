@@ -1,8 +1,13 @@
 const express = require('express');
-
+const swaggerUi = require('swagger-ui-express');
+const fs = require('fs');
 
 const app = express();
 app.use(express.json());
+
+// Load OpenAPI Spec
+const swaggerDocument = JSON.parse(fs.readFileSync('./openapi.json', 'utf8'));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // In-memory Database
 let tasks = [
